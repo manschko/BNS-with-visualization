@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>BST Visualization</title>
+    <link rel="shortcut icon" href="img/logo.png">
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.0.0/css/bootstrap-slider.min.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.0.0/bootstrap-slider.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+</head>
+
+
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" id="svg" class="svg" shape-rendering="auto"></svg>
+
+
+
+
+
+
+
+    <script th:src="@{/js/bstvisual.js}"></script>
+    <script th:inline="javascript">
+        //Refresh the page, clear the tree
+        function resetPage() {
+            location.reload();
+        }
+
+        $(document).ready(function () {
+            const data = [[${data}]];
+            printDate(data);
+            $('[data-toggle=offcanvas]').click(function () {
+                $('.row-offcanvas').toggleClass('active');
+            });
+            $('#addRandom').popover({placement:'bottom'});
+
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>
