@@ -2,16 +2,22 @@ package com.codingchallenge.binarysearchtree.controller;
 
 import com.codingchallenge.binarysearchtree.models.Traverse;
 import com.codingchallenge.binarysearchtree.models.Tree;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.FileReader;
 import java.util.Scanner;
 
 @Controller
 public class WebController {
+
+    Logger logger = LoggerFactory.getLogger(WebController.class);
 
     @GetMapping("/")
     public String index() {
@@ -20,24 +26,24 @@ public class WebController {
 
     @PostMapping("/tree")
     public String upload(@RequestParam("file") MultipartFile file, @RequestParam(value = "default", defaultValue = "false") boolean dummy, Model model) {
-        Tree tree = new Tree();
         Scanner scanner = null;
-        if(!dummy){
+        if (!dummy) {
             try {
                 scanner = new Scanner(file.getInputStream());
-            }catch(Exception e) {
-                e.printStackTrace(System.out);
+            } catch (Exception e) {
+                logger.debug(e.getMessage());
             }
-        }else {
+        } else {
             try {
                 FileReader from = new FileReader("src/main/resources/dummy.csv");
                 scanner = new Scanner(from);
-            }catch(Exception e) {
-                e.printStackTrace(System.out);
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+
             }
         }
 
-        tree = getTreeFromScannner(scanner);
+        Tree tree = getTreeFromScannner(scanner);
 
         model.addAttribute("data", Traverse.printTree(tree.root));
         return "index";
@@ -45,21 +51,20 @@ public class WebController {
 
     @GetMapping("/tree")
     public String upload(Model model) {
-        Tree tree = new Tree();
         Scanner scanner = null;
         try {
             FileReader from = new FileReader("src/main/resources/dummy.csv");
             scanner = new Scanner(from);
-        }catch(Exception e) {
-            e.printStackTrace(System.out);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }
-        tree = getTreeFromScannner(scanner);
+        Tree tree = getTreeFromScannner(scanner);
 
         model.addAttribute("data", Traverse.printTree(tree.root));
         return "index";
     }
 
-    Tree getTreeFromScannner(Scanner scanner){
+    Tree getTreeFromScannner(Scanner scanner) {
         Tree tree = new Tree();
         String temp;
         while (scanner.hasNext()) {

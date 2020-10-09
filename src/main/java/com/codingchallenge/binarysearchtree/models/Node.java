@@ -11,6 +11,7 @@ public class Node {
         left = right = null;
         height = 0;
     }
+
     public Node() {
         content = null;
         left = right = null;
